@@ -388,7 +388,16 @@
   }
   .float-cta:hover{transform:translateY(-3px);background:var(--accent);color:#fff;}
   .float-cta.is-hidden{opacity:0;transform:translateY(14px);pointer-events:none;}
-  @media(max-width:640px){.float-cta span.long{display:none;}}
+  @media(max-width:640px){
+    /* En mobile pasa a ser un círculo chico y prolijo en vez de una píldora
+       con texto: como puede quedar tapando precios o stats al hacer scroll,
+       cuanto menos espacio ocupe, menos molesta. */
+    .float-cta{
+      width:50px;height:50px;padding:0;justify-content:center;
+      bottom:18px;right:18px;font-size:1.05rem;
+    }
+    .float-cta span.long{display:none;}
+  }
 </style>
 </head>
 <body>
@@ -463,7 +472,48 @@
       <p>No cobramos matrícula. Los packs no son transferibles y son válidos del 1° al último día del mes.</p>
     </div>
     <div class="pricing-grid" id="pricingGrid">
-      <!-- Rendered dynamically from Supabase -->
+      <div class="price-card fade-in">
+        <h3>Pack 4 clases</h3>
+        <div class="amount">$48.000 <small>efectivo</small></div>
+        <div class="transf">$50.000 por transferencia</div>
+        <ul><li>Válido del 1° al último día del mes</li><li>Todos los estilos incluidos</li></ul>
+        <a href="#contacto" data-plan="Pack 4 clases" data-wa-cta class="btn btn-ghost btn-sm" style="margin-top:auto">Reservar</a>
+      </div>
+      <div class="price-card fade-in">
+        <h3>Pack 8 clases</h3>
+        <div class="amount">$72.000 <small>efectivo</small></div>
+        <div class="transf">$75.000 por transferencia</div>
+        <ul><li>Válido del 1° al último día del mes</li><li>Todos los estilos incluidos</li></ul>
+        <a href="#contacto" data-plan="Pack 8 clases" data-wa-cta class="btn btn-ghost btn-sm" style="margin-top:auto">Reservar</a>
+      </div>
+      <div class="price-card featured fade-in">
+        <h3>Pack 12 clases</h3>
+        <div class="amount">$96.000 <small>efectivo</small></div>
+        <div class="transf">$99.000 por transferencia</div>
+        <ul><li>Válido del 1° al último día del mes</li><li>Todos los estilos incluidos</li></ul>
+        <a href="#contacto" data-plan="Pack 12 clases" data-wa-cta class="btn btn-primary btn-sm" style="margin-top:auto">Reservar</a>
+      </div>
+      <div class="price-card fade-in">
+        <h3>Pase libre</h3>
+        <div class="amount">$117.000 <small>efectivo</small></div>
+        <div class="transf">$120.000 por transferencia</div>
+        <ul><li>Clases ilimitadas todo el mes</li><li>Todos los estilos incluidos</li></ul>
+        <a href="#contacto" data-plan="Pase libre" data-wa-cta class="btn btn-ghost btn-sm" style="margin-top:auto">Reservar</a>
+      </div>
+      <div class="price-card fade-in">
+        <h3>Clase suelta</h3>
+        <div class="amount">$14.000 <small>efectivo</small></div>
+        <div class="transf">$14.500 por transferencia</div>
+        <ul><li>Ideal para probar una clase</li></ul>
+        <a href="#contacto" data-plan="Clase suelta" data-wa-cta class="btn btn-ghost btn-sm" style="margin-top:auto">Reservar</a>
+      </div>
+      <div class="price-card fade-in">
+        <h3>Crew competencia</h3>
+        <div class="amount">$65.000 <small>efectivo</small></div>
+        <div class="transf">$67.000 por transferencia</div>
+        <ul><li>Grupo de competencia, cupos limitados</li></ul>
+        <a href="#contacto" data-plan="Crew competencia" data-wa-cta class="btn btn-ghost btn-sm" style="margin-top:auto">Reservar</a>
+      </div>
     </div>
     <p class="price-note">Valores vigentes del mes en curso. Consultanos por promos de temporada.</p>
   </div>
@@ -479,7 +529,60 @@
     </div>
 
     <div class="schedule-grid fade-in" id="scheduleGrid">
-      <!-- Rendered dynamically from Supabase -->
+      <div class="day-col">
+        <h4>Lunes</h4>
+        <div class="class-item"><span class="time">14HS</span><span class="name">Femme Heels Princi</span><span class="teacher">Elian Agustín</span></div>
+        <div class="class-item"><span class="time">17HS</span><span class="name">Reggaeton</span><span class="teacher">Elian Agustín</span><span class="age">Adolescentes - adultos</span></div>
+        <div class="class-item"><span class="time">18HS</span><span class="name">Coreografía</span><span class="teacher">Abru</span><span class="age">Adolescentes - adultos</span></div>
+        <div class="class-item"><span class="time">19HS</span><span class="name">Urbano Teens</span><span class="teacher">Flor Pistone</span><span class="age">7 a 12 años</span></div>
+        <div class="class-item"><span class="time">20HS</span><span class="name">Urbano Adultos</span><span class="teacher">Vicki Lopes</span></div>
+      </div>
+      <div class="day-col">
+        <h4>Martes</h4>
+        <div class="class-item"><span class="time">11HS</span><span class="name">Femme Princi</span><span class="teacher">Elian Agustín</span></div>
+        <div class="class-item"><span class="time">12HS</span><span class="name">Coreografía / Urbano</span><span class="teacher">Guido Rios</span></div>
+        <div class="class-item"><span class="time">17HS</span><span class="name">Ballroom<span class="tag">Nueva</span></span><span class="teacher">Katia</span></div>
+        <div class="class-item"><span class="time">18HS</span><span class="name">Dance Kids</span><span class="teacher">Male Roma</span><span class="age">3 a 6 años</span></div>
+        <div class="class-item"><span class="time">19HS</span><span class="name">Urbano Femme</span><span class="teacher">Tammy</span><span class="age">Adolescentes - adultos</span></div>
+        <div class="class-item"><span class="time">20HS</span><span class="name">Heels Princ/Int</span><span class="teacher">Elian Agustín</span></div>
+      </div>
+      <div class="day-col">
+        <h4>Miércoles</h4>
+        <div class="class-item"><span class="time">10HS</span><span class="name">Fuerza y Flexibilidad</span><span class="teacher">Lu Prado</span></div>
+        <div class="class-item"><span class="time">11HS</span><span class="name">Urbano Princi</span><span class="teacher">Chiara Bertolissio</span></div>
+        <div class="class-item"><span class="time">16HS</span><span class="name">Latin Femme</span><span class="teacher">Mil · salsa y bachata femme</span></div>
+        <div class="class-item"><span class="time">17HS</span><span class="name">Reggaeton</span><span class="teacher">Elian Agustín</span><span class="age">Adolescentes - adultos</span></div>
+        <div class="class-item"><span class="time">18HS</span><span class="name">Femme Princi</span><span class="teacher">Abru Ponso</span></div>
+        <div class="class-item"><span class="time">19HS</span><span class="name">Urbano Adolescentes</span><span class="teacher">Flor Pistone</span><span class="age">Desde los 12 años</span></div>
+        <div class="class-item"><span class="time">20HS</span><span class="name">Urbano Adultos</span><span class="teacher">Flor Pistone</span></div>
+      </div>
+      <div class="day-col">
+        <h4>Jueves</h4>
+        <div class="class-item"><span class="time">14HS</span><span class="name">Heels Principiante/Intermedio</span><span class="teacher">Flor Pistone</span></div>
+        <div class="class-item"><span class="time">17HS</span><span class="name">Coreografía<span class="tag">Nueva</span></span><span class="teacher">May Heredia</span><span class="age">Adolescentes - adultos</span></div>
+        <div class="class-item"><span class="time">18HS</span><span class="name">Contemporáneo Acro</span><span class="teacher">Lu Prado</span><span class="age">Adolescentes - adultos</span></div>
+        <div class="class-item"><span class="time">19HS</span><span class="name">Urbano Teens</span><span class="teacher">Chiara</span><span class="age">7 a 11 años</span></div>
+        <div class="class-item"><span class="time">20HS</span><span class="name">Femme Heels</span><span class="teacher">Elian Agustín</span></div>
+      </div>
+      <div class="day-col">
+        <h4>Viernes</h4>
+        <div class="class-item"><span class="time">10HS</span><span class="name">Fuerza y Flexibilidad</span><span class="teacher">Lu Prado</span></div>
+        <div class="class-item"><span class="time">11HS</span><span class="name">Urbano Princi</span><span class="teacher">Chiara Bertolissio</span></div>
+        <div class="class-item"><span class="time">12HS</span><span class="name">Reggaeton Femme</span><span class="teacher">Vicki Lopes</span></div>
+        <div class="class-item"><span class="time">17HS</span><span class="name">Urbano Básico</span><span class="teacher">Elian Agustín</span></div>
+        <div class="class-item"><span class="time">18HS</span><span class="name">Femme Princi</span><span class="teacher">Giuli</span></div>
+        <div class="class-item"><span class="time">19HS</span><span class="name">Jazz</span><span class="teacher">Male Roma</span><span class="age">Adolescentes - adultos</span></div>
+        <div class="class-item"><span class="time">20HS</span><span class="name">Urbano Adultos</span><span class="teacher">Agus Tolaba</span></div>
+      </div>
+      <div class="day-col">
+        <h4>Sábado</h4>
+        <div class="class-item"><span class="time">10HS</span><span class="name">Femme Heels<span class="tag">Nueva</span></span><span class="teacher">Flor Pistone</span></div>
+        <div class="class-item"><span class="time">11:30 A 13:30HS</span><span class="name">Crew</span><span class="teacher">La Guarida Dance Crew</span><span class="age">Grupo de competencia</span></div>
+        <div class="class-item"><span class="time">14HS</span><span class="name">Flexibilidad - Fuerza</span><span class="teacher">Nadia Adesso</span><span class="age">Todos los niveles</span></div>
+        <div class="class-item"><span class="time">15HS</span><span class="name">Femme Princi</span><span class="teacher">Elian Agustín</span></div>
+        <a class="class-item highlight-item" href="#arterial"><span class="time">16 A 18HS</span><span class="name">Arterial Heels — Formación Anual</span></a>
+        <div class="class-item"><span class="time">18HS</span><span class="name">Urbano<span class="tag">Nueva</span></span><span class="teacher">Flor Pistone</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -496,26 +599,38 @@
 
     <div class="arterial-body">
       <div class="fade-in">
-        <div class="arterial-pillars" id="arterialPillars"></div>
-        <ul class="arterial-info-list" id="arterialInfoList"></ul>
+        <div class="arterial-pillars" id="arterialPillars">
+          <div class="pillar">Técnica</div>
+          <div class="pillar">Musicalidad</div>
+          <div class="pillar">Freestyle</div>
+          <div class="pillar">Interpretación</div>
+          <div class="pillar">Entrenamiento físico</div>
+          <div class="pillar">Herramientas escénicas</div>
+        </div>
+        <ul class="arterial-info-list" id="arterialInfoList">
+          <li>El cupo se reserva abonando el 50% del valor de la formación.</li>
+          <li>No se pueden tomar clases sueltas: es una formación que requiere compromiso y regularidad.</li>
+          <li>Las inasistencias no son recuperables.</li>
+          <li>Cierre de la formación: pieza coreográfica grupal presentada en el Teatro Metropolitan, en la muestra anual de La Guarida.</li>
+        </ul>
       </div>
 
       <div class="arterial-card fade-in">
         <div class="row">
           <div class="lbl">Valor mensual</div>
-          <div class="val"><span id="arterialMonthlyCash"></span><small>efectivo</small></div>
+          <div class="val"><span id="arterialMonthlyCash">$95.000</span><small>efectivo</small></div>
         </div>
         <div class="row">
           <div class="lbl">Mensual por transferencia</div>
-          <div class="val"><span id="arterialMonthlyTransfer"></span><small>transferencia</small></div>
+          <div class="val"><span id="arterialMonthlyTransfer">$98.000</span><small>transferencia</small></div>
         </div>
         <div class="row">
           <div class="lbl">Formación completa (6 meses)</div>
-          <div class="val"><span id="arterialFullCash"></span><small>efectivo</small></div>
+          <div class="val"><span id="arterialFullCash">$500.000</span><small>efectivo</small></div>
         </div>
         <div class="row">
           <div class="lbl">Formación completa por transferencia</div>
-          <div class="val"><span id="arterialFullTransfer"></span><small>transferencia</small></div>
+          <div class="val"><span id="arterialFullTransfer">$510.000</span><small>transferencia</small></div>
         </div>
         <div class="save">Abonando <strong>toda la formación</strong> (los 6 meses de cursada) accedés a un <strong>descuento en el total</strong>.</div>
         <a href="#contacto" data-plan="Arterial Heels — Formación Anual" data-wa-cta class="btn btn-accent" id="arterialCta" style="width:100%;margin-top:24px">Reservar mi cupo</a>
@@ -600,7 +715,7 @@
   </div>
 </footer>
 
-<a href="#contacto" class="float-cta" data-wa-cta>✦ <span class="long">Inscribite ahora</span></a>
+<a href="#contacto" class="float-cta" data-wa-cta><span class="icon">✦</span><span class="long">Inscribite ahora</span></a>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
