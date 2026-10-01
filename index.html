@@ -717,6 +717,56 @@
 
 <a href="#contacto" class="float-cta" data-wa-cta><span class="icon">✦</span><span class="long">Inscribite ahora</span></a>
 
+<script>
+  // ============================================================
+  // INTERFAZ INDEPENDIENTE DE LA RED
+  // Todo lo que hace falta para que el sitio se vea y se use bien
+  // (animaciones de aparición, menú mobile, header, año del footer)
+  // vive en este bloque, que corre apenas el HTML está listo — sin
+  // esperar a que cargue Supabase ni ninguna librería externa. Así,
+  // si el panel de administración está lento o desconectado, el
+  // sitio igual se muestra completo y al instante.
+  // ============================================================
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Header scroll state
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Ocultar el botón flotante "Inscribite ahora" cuando el pie de página
+  // entra en pantalla, para que no tape el link de "Acceso administración"
+  // ni el resto del contenido del footer.
+  const floatCta = document.querySelector('.float-cta');
+  const siteFooter = document.querySelector('footer');
+  if (floatCta && siteFooter) {
+    const footerObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => floatCta.classList.toggle('is-hidden', entry.isIntersecting));
+    }, { threshold: 0.05 });
+    footerObserver.observe(siteFooter);
+  }
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
   // ============================================================
@@ -874,64 +924,39 @@
     }
   }
 
+  // Si el panel de administración (Supabase) está lento, pausado o
+  // caído, esta espera no debe trabar nada visible — por eso tiene un
+  // límite de tiempo propio. Pasado ese límite seguimos con el
+  // contenido fijo del HTML en vez de dejar la llamada colgada.
+  function withTimeout(promise, ms) {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Tiempo de espera agotado')), ms)),
+    ]);
+  }
+
   async function loadSiteContent() {
     try {
-      const [configRes, pricingRes, scheduleRes, arterialRes, imagesRes] = await Promise.all([
+      const [configRes, pricingRes, scheduleRes, arterialRes, imagesRes] = await withTimeout(Promise.all([
         db.from('site_config').select('*').eq('id', 1).maybeSingle(),
         db.from('pricing_plans').select('*').eq('active', true).order('sort_order'),
         db.from('schedule_classes').select('*').eq('active', true).order('day_order').order('sort_order'),
         db.from('arterial_heels').select('*').eq('id', 1).maybeSingle(),
         db.from('site_images').select('*'),
-      ]);
+      ]), 6000);
       if (configRes.data) renderConfig(configRes.data);
       if (pricingRes.data) renderPricing(pricingRes.data);
       if (scheduleRes.data) renderSchedule(scheduleRes.data);
       if (arterialRes.data) renderArterial(arterialRes.data);
       if (imagesRes.data) renderImages(imagesRes.data);
       wireWhatsAppCtas(configRes.data && configRes.data.whatsapp_url);
+      // Nuevos elementos que haya insertado renderPricing/renderSchedule
+      // (tarjetas de precios, días de la grilla) también deben animarse al
+      // entrar en pantalla, igual que el resto del sitio.
+      document.querySelectorAll('.fade-in:not(.in-view)').forEach(el => observer.observe(el));
     } catch (err) {
       console.warn('No se pudo conectar con el panel de administración, se muestra el contenido por defecto.', err);
-    } finally {
-      // Fade-in observer runs after content (static fallback or live data) is in the DOM
-      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     }
-  }
-
-  // Header scroll state
-  const header = document.getElementById('site-header');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 40);
-  });
-
-  // Mobile menu
-  const burger = document.getElementById('burger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  burger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
-
-  // Fade-in on scroll (observer created now, elements attached once content is rendered)
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  // Year
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Ocultar el botón flotante "Inscribite ahora" cuando el pie de página
-  // entra en pantalla, para que no tape el link de "Acceso administración"
-  // ni el resto del contenido del footer.
-  const floatCta = document.querySelector('.float-cta');
-  const siteFooter = document.querySelector('footer');
-  if (floatCta && siteFooter) {
-    const footerObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => floatCta.classList.toggle('is-hidden', entry.isIntersecting));
-    }, { threshold: 0.05 });
-    footerObserver.observe(siteFooter);
   }
 
   loadSiteContent();
